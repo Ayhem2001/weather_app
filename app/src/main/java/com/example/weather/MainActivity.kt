@@ -5,6 +5,7 @@ import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.weather.databinding.ActivityMainBinding
 import okhttp3.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,9 +16,12 @@ import kotlin.math.log
 
 //c548c7a27ab4bada6b6db3b572b8a4ed
 class MainActivity : AppCompatActivity() {
+    private val binding : ActivityMainBinding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
         fetchWeatherData()
     }
 
@@ -32,7 +36,8 @@ class MainActivity : AppCompatActivity() {
                 val responseBody = response.body()
                 if (response.isSuccessful && responseBody != null){
                     val temperature = responseBody.main.temp.toString()
-                    Log.d("TAG", "onResponse: $temperature")
+                    binding.Tem
+                    //Log.d("TAG", "onResponse: $temperature")
                 }
             }
 
