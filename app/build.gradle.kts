@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.weather"
-        minSdk = 24
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -40,6 +40,11 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     //  lottie animations
     implementation ("com.airbnb.android:lottie:6.3.0")
+    // GSON converter
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+// retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.android.car.ui:car-ui-lib:2.5.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
