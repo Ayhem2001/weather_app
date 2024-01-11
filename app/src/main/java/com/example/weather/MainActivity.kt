@@ -36,7 +36,23 @@ class MainActivity : AppCompatActivity() {
                 val responseBody = response.body()
                 if (response.isSuccessful && responseBody != null){
                     val temperature = responseBody.main.temp.toString()
-                    binding.Tem
+                    val humidity = responseBody.main.humidity
+                    val windSpeed = responseBody.wind.speed
+                    val sunRise = responseBody.sys.sunrise
+                    val sunSet = responseBody.sys.sunset
+                    val sealevel = responseBody.main.pressure
+                    val condition = responseBody.weather.firstOrNull()?.main?: "unknown"
+                    val maxTemp = responseBody.main.temp_max
+                    val minTemp = responseBody.main.temp_min
+                    binding.Tem.text="$temperature °C"
+                      binding.Weather.text = condition
+                      binding.MaxTem.text = "Max Temp : $maxTemp °C"
+                      binding.MinTem.text = "Max Temp : $minTemp °C"
+                      binding.Humidity.text = "$humidity %"
+                      binding.WindSpeed.text = "$windSpeed m/s"
+                      binding.SunRise.text = "$sunRise"
+                      binding.Sunset.text = "$sunSet"
+                    binding.Sea.text = "$sealevel hpa"
                     //Log.d("TAG", "onResponse: $temperature")
                 }
             }
