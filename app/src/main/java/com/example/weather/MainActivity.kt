@@ -1,18 +1,24 @@
 package com.example.weather
 
 import android.content.ContentValues.TAG
+import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.SearchView
 import com.example.weather.databinding.ActivityMainBinding
+import com.google.android.material.color.utilities.ViewingConditions
+import okhttp3.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
+import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.log
 
 //c548c7a27ab4bada6b6db3b572b8a4ed
 class MainActivity : AppCompatActivity() {
@@ -23,10 +29,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         fetchWeatherData("tunis")
-        SearchCity()
+        searchCity()
     }
 
-    private fun SearchCity() {
+    private fun searchCity() {
         val searchView = binding.searchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -45,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl("https://api.openweathermap.org/data/2.5/")
             .build().create(ApiInterface::class.java)
-        val response = retrofit.getWeatherData(cityName,"c548c7a27ab4bada6b6db3b572b8a4ed" , "metric" )
+        val response = retrofit.getWeatherData(cityName,"c548c7a27ab4bada6b6db3b572b8a4ed", "metric" )
         response.enqueue(object : Callback<WeatherApp>{
             override fun onResponse(call: retrofit2.Call<WeatherApp>, response: Response<WeatherApp>) {
                 val responseBody = response.body()
@@ -60,18 +66,18 @@ class MainActivity : AppCompatActivity() {
                     val maxTemp = responseBody.main.temp_max
                     val minTemp = responseBody.main.temp_min
                     binding.Tem.text="$temperature °C"
-                      binding.Weather.text = condition
-                      binding.MaxTem.text = "Max Temp : $maxTemp °C"
-                      binding.MinTem.text = "Min Temp : $minTemp °C"
-                      binding.Humidity.text = "$humidity %"
-                      binding.WindSpeed.text = "$windSpeed m/s"
-                      binding.SunRise.text = "${time(sunRise)}"
-                      binding.Sunset.text = "${time(sunSet)}"
-                      binding.Sea.text = "$sealevel hPa"
-                      binding.Condition.text = condition
-                      binding.Day.text=dayName(System.currentTimeMillis())
-                          binding.Date.text=date()
-                          binding.CityName.text="$cityName"
+                    binding.Weather.text = condition
+                    binding.MaxTem.text = "Max Temp : $maxTemp °C"
+                    binding.MinTem.text = "Min Temp : $minTemp °C"
+                    binding.Humidity.text = "$humidity %"
+                    binding.WindSpeed.text = "$windSpeed m/s"
+                    binding.SunRise.text = "${time(sunRise)}"
+                    binding.Sunset.text = "${time(sunSet)}"
+                    binding.Sea.text = "$sealevel hPa"
+                    binding.Condition.text = condition
+                    binding.Day.text=dayName(System.currentTimeMillis())
+                    binding.Date.text=date()
+                    binding.CityName.text="$cityName"
                     //Log.d("TAG", "onResponse: $temperature")
 
                     changeImagesAccordingToWeatherCondition(condition)
@@ -79,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: retrofit2.Call<WeatherApp>, t: Throwable) {
-                Log.e(TAG, "Failed to fetch weather data", t)              }
+                Log.e(TAG, "Failed to fetch weather data", t)             }
 
         })
     }
