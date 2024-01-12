@@ -233,7 +233,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:srcCompat="@drawable/conditions" />
+                    app:srcCompat="@drawable/conditions" />
 
                 <TextView
                     android:id="@+id/Condition"
@@ -267,7 +267,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:srcCompat="@drawable/sunrise" />
+                    app:srcCompat="@drawable/sunrise" />
 
                 <TextView
                     android:id="@+id/SunRise"
@@ -300,7 +300,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:srcCompat="@drawable/sunset" />
+                    app:srcCompat="@drawable/sunset" />
 
                 <TextView
                     android:id="@+id/Sunset"
@@ -333,7 +333,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:srcCompat="@drawable/sea" />
+                    app:srcCompat="@drawable/sea" />
 
                 <TextView
                     android:id="@+id/Sea"

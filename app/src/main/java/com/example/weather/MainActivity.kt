@@ -1,24 +1,18 @@
 package com.example.weather
 
 import android.content.ContentValues.TAG
-import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.SearchView
 import com.example.weather.databinding.ActivityMainBinding
-import com.google.android.material.color.utilities.ViewingConditions
-import okhttp3.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
-import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.math.log
 
 //c548c7a27ab4bada6b6db3b572b8a4ed
 class MainActivity : AppCompatActivity() {
@@ -51,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl("https://api.openweathermap.org/data/2.5/")
             .build().create(ApiInterface::class.java)
-        val response = retrofit.getWeatherData(cityName, appid ="c548c7a27ab4bada6b6db3b572b8a4ed" , units = "metric" )
+        val response = retrofit.getWeatherData(cityName,"c548c7a27ab4bada6b6db3b572b8a4ed" , "metric" )
         response.enqueue(object : Callback<WeatherApp>{
             override fun onResponse(call: retrofit2.Call<WeatherApp>, response: Response<WeatherApp>) {
                 val responseBody = response.body()
@@ -68,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                     binding.Tem.text="$temperature °C"
                       binding.Weather.text = condition
                       binding.MaxTem.text = "Max Temp : $maxTemp °C"
-                      binding.MinTem.text = "Max Temp : $minTemp °C"
+                      binding.MinTem.text = "Min Temp : $minTemp °C"
                       binding.Humidity.text = "$humidity %"
                       binding.WindSpeed.text = "$windSpeed m/s"
                       binding.SunRise.text = "${time(sunRise)}"
@@ -80,18 +74,17 @@ class MainActivity : AppCompatActivity() {
                           binding.CityName.text="$cityName"
                     //Log.d("TAG", "onResponse: $temperature")
 
-                    changeImagesaccordingToWeatherCondition(condition)
+                    changeImagesAccordingToWeatherCondition(condition)
                 }
             }
 
             override fun onFailure(call: retrofit2.Call<WeatherApp>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
+                Log.e(TAG, "Failed to fetch weather data", t)              }
 
         })
     }
 
-    private fun changeImagesaccordingToWeatherCondition(conditions: String) {
+    private fun changeImagesAccordingToWeatherCondition(conditions: String) {
         when(conditions){
             "Clear Sky" , "Sunny", "Clear" ->{
                 binding.root.setBackgroundResource(R.drawable.sunny_background)
